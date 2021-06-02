@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    depends_on:
+      - wordpress
+    networks:
+      - inception_network
+    ports:
+      - 443:443 
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    restart: always
+    environment:
+     MYSQL_ADMIN_USERNAME: apavel
+     MYSQL_ADMIN_PASSWORD: apavel
+     WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_volume:/var/www/wordpress 
+    depends_on:
+      - mariadb 
+    networks:
+      - inception_network
+    expose:
+      - 9000
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: apavel
+      WORDPRESS_DB_NAME: wordpress
+      MYSQL_ADMIN_USERNAME: apavel
+      MYSQL_ADMIN_PASSWORD: apavel
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - inception_network
+    expose:
+      - 3306
+
+networks:
+  inception_network:
+
+volumes:
+
+  mariadb_volume:
+    driver_opts:
+      type: none
+      device: /home/apavel/data/mariadb
+      o: bind
+
+  wordpress_volume:
+    driver_opts:
+      type: none
+      device: /home/apavel/data/wordpress
+      o: bind
