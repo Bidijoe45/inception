@@ -1,13 +1,15 @@
 NAME=inception
 
 DOCKER_COMPOSE=srcs/docker-compose.yaml
-NGINX=./srcs/nginx/.
-MARIADB=./srcs/mariadb/.
+NGINX=./srcs/nginx
+MARIADB=./srcs/mariadb
 WORDPRESS=./srcs/wordpress
 
 all: $(NAME)
 
 $(NAME):
+	mkdir -p ~/data/mariadb
+	mkdir -p ~/data/wordpress
 	docker build -t nginx $(NGINX)
 	docker build -t mariadb $(MARIADB) 
 	docker build -t wordpress $(WORDPRESS)
