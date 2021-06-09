@@ -56,11 +56,11 @@ volumes:
   mariadb_volume:
     driver_opts:
       type: none
-      device: /home/apavel/data/mariadb
+      device: ${MARIADB_VOLUME}
       o: bind
 
   wordpress_volume:
     driver_opts:
       type: none
-      device: /home/apavel/data/wordpress
+      device: ${WORDPRESS_VOLUME} 
       o: bind

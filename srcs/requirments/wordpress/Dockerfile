@@ -2,16 +2,16 @@ FROM debian:buster
 
 RUN apt-get update
 RUN apt-get install -y curl 
-RUN apt-get install -y mariadb-client \ 
-					php-fpm \
-					php-mbstring \
-					php-curl \
-					php-exif\
-					php-fileinfo\
-					php-json\
-					php-mysqli\
-					php-xml\
-					php-common
+RUN apt-get install -y	mariadb-client \ 
+			php-fpm \
+			php-mbstring \
+			php-curl \
+			php-exif\
+			php-fileinfo\
+			php-json\
+			php-mysqli\
+			php-xml\
+			php-common
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d 
 
