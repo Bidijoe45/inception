@@ -26,6 +26,7 @@ RUN wp core download --path=/var/www/wordpress/ --allow-root
 
 RUN chown -R www-data:www-data /var/www/*
 
-CMD php-fpm7.3 --nodaemonize && \
+CMD	wp config create --path=/var/www/wordpress/ --dbhost=mariadb:3306 --dbname=$WORDPRESS_DB_NAME --dbuser=$MYSQL_ADMIN_USERNAME --dbpass=$MYSQL_ADMIN_PASSWORD --allow-root && \
 	mysql -hmariadb -p3306 -u$MYSQL_ADMIN_USERNAME -p$MYSQL_ADMIN_PASSWORD && \
-	wp config create --path=/var/www/wordpress/ --dbhost=mariadb:3306 --dbname=$WORDPRESS_DB_NAME --dbuser=$MYSQL_ADMIN_USERNAME --dbpass=$MYSQL_ADMIN_PASSWORD --allow-root
+	php-fpm7.3 --nodaemonize
+

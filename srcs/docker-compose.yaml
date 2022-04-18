@@ -4,6 +4,7 @@ services:
 
   nginx:
     container_name: nginx
+    build: ./requirments/nginx/
     image: nginx
     restart: always
     volumes:
@@ -13,10 +14,12 @@ services:
     networks:
       - inception_network
     ports:
+      - 80:80
       - 443:443 
 
   wordpress:
     container_name: wordpress
+    build: ./requirments/wordpress/
     image: wordpress
     restart: always
     environment:
@@ -34,6 +37,7 @@ services:
 
   mariadb:
     container_name: mariadb
+    build: ./requirments/mariadb/
     image: mariadb
     restart: always
     environment:
@@ -50,6 +54,7 @@ services:
 
 networks:
   inception_network:
+    driver: bridge
 
 volumes:
 
