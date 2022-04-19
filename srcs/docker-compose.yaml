@@ -15,20 +15,23 @@ services:
             - inception_network
         ports:
             - 80:80
-            - 443:443 
+            - 443:443
 
     wordpress:
         container_name: wordpress
         build: 
             context: ./requirments/wordpress/
             dockerfile: Dockerfile
+            args:
+                MYSQL_ADMIN_USERNAME: ${MYSQL_ADMIN_USERNAME}
+                MYSQL_ADMIN_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
+                WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+        environment:
+            MYSQL_ADMIN_USERNAME: ${MYSQL_ADMIN_USERNAME}
+            MYSQL_ADMIN_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
+            WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
         image: wordpress
         restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: apavel
-            MYSQL_ADMIN_USERNAME: apavel
-            MYSQL_ADMIN_PASSWORD: apavel
-            WORDPRESS_DB_NAME: wordpress
         volumes:
             - wordpress_volume:/var/www/wordpress 
         depends_on:
@@ -44,17 +47,12 @@ services:
             context: ./requirments/mariadb/
             dockerfile: Dockerfile
             args:
-                MYSQL_ROOT_PASSWORD: apavel
-                MYSQL_ADMIN_USERNAME: apavel
-                MYSQL_ADMIN_PASSWORD: apavel
-                WORDPRESS_DB_NAME: wordpress
+                MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                MYSQL_ADMIN_USERNAME: ${MYSQL_ADMIN_USERNAME}
+                MYSQL_ADMIN_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
+                WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
         image: mariadb
         restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: apavel
-            WORDPRESS_DB_NAME: wordpress
-            MYSQL_ADMIN_USERNAME: apavel
-            MYSQL_ADMIN_PASSWORD: apavel
         volumes:
             - mariadb_volume:/var/lib/mysql
         networks:

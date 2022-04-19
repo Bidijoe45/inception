@@ -8,11 +8,9 @@ ARG WORDPRESS_DB_NAME
 RUN apt-get update
 RUN apt-get install -y mariadb-server
 
-RUN set -x; service mysql start && mysql -u "root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; FLUSH PRIVILEGES;"
-mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER IF NOT EXISTS ${MYSQL_ADMIN_USERNAME}@'localhost' IDENTIFIED BY '${MYSQL_ADMIN_PASSWORD}';" && \
-mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON *.* to ${MYSQL_ADMIN_USERNAME}@'localhost' IDENTIFIED BY '${MYSQL_ADMIN_PASSWORD}'; FLUSH PRIVILEGES;" && \
+RUN service mysql start && mysql -u "root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; FLUSH PRIVILEGES;" && \
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER IF NOT EXISTS ${MYSQL_ADMIN_USERNAME}@'%' IDENTIFIED BY '${MYSQL_ADMIN_PASSWORD}';" && \
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON *.* to ${MYSQL_ADMIN_USERNAME}@'%' IDENTIFIED BY '${MYSQL_ADMIN_PASSWORD}'; FLUSH PRIVILEGES;" && \
 mysql -u${MYSQL_ADMIN_USERNAME} -p${MYSQL_ADMIN_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${WORDPRESS_DB_NAME};"
 
-USER mysql
-
-CMD mysqld_safe
+CMD ["mysqld_safe", "--bind-address=0.0.0.0"]

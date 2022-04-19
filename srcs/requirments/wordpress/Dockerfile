@@ -1,8 +1,12 @@
 FROM debian:buster
 
-RUN apt-get update
-RUN apt-get install -y curl 
-RUN apt-get install -y	mariadb-client \ 
+ARG MYSQL_ADMIN_USERNAME
+ARG MYSQL_ADMIN_PASSWORD
+ARG WORDPRESS_DB_NAME
+
+RUN apt-get update && \
+	apt-get install -y	curl \
+			mariadb-client \ 
 			php-fpm \
 			php-mbstring \
 			php-curl \
@@ -13,7 +17,8 @@ RUN apt-get install -y	mariadb-client \
 			php-xml\
 			php-common
 
-COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d 
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
+COPY ./conf/setup_wp.sh /setup_wp.sh
 
 RUN mkdir -p /run/php
 RUN mkdir -p /var/www/wordpress
@@ -26,7 +31,4 @@ RUN wp core download --path=/var/www/wordpress/ --allow-root
 
 RUN chown -R www-data:www-data /var/www/*
 
-CMD	wp config create --path=/var/www/wordpress/ --dbhost=mariadb:3306 --dbname=$WORDPRESS_DB_NAME --dbuser=$MYSQL_ADMIN_USERNAME --dbpass=$MYSQL_ADMIN_PASSWORD --allow-root && \
-	mysql -hmariadb -p3306 -u$MYSQL_ADMIN_USERNAME -p$MYSQL_ADMIN_PASSWORD && \
-	php-fpm7.3 --nodaemonize
-
+ENTRYPOINT ["sh", "setup_wp.sh"]
