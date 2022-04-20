@@ -27,8 +27,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar 
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-RUN wp core download --path=/var/www/wordpress/ --allow-root
-
 RUN chown -R www-data:www-data /var/www/*
+RUN chown www-data:www-data /setup_wp.sh
+
+USER www-data
 
 ENTRYPOINT ["sh", "setup_wp.sh"]

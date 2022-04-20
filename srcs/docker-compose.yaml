@@ -14,7 +14,6 @@ services:
         networks:
             - inception_network
         ports:
-            - 80:80
             - 443:443
 
     wordpress:
@@ -30,6 +29,12 @@ services:
             MYSQL_ADMIN_USERNAME: ${MYSQL_ADMIN_USERNAME}
             MYSQL_ADMIN_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
             WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+            WP_ADMIN_USER_NAME: ${WP_ADMIN_USER_NAME}
+            WP_ADMIN_USER_PASS: ${WP_ADMIN_USER_PASS}
+            WP_ADMIN_USER_EMAIL: ${WP_ADMIN_USER_EMAIL}
+            WP_AUTHOR_USER_NAME: ${WP_AUTHOR_USER_NAME}
+            WP_AUTHOR_USER_PASS: ${WP_AUTHOR_USER_PASS}
+            WP_AUTHOR_USER_EMAIL: ${WP_AUTHOR_USER_EMAIL}
         image: wordpress
         restart: always
         volumes:

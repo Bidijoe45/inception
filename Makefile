@@ -1,31 +1,28 @@
 NAME=inception
 
-DOCKER_COMPOSE=srcs/docker-compose.yaml
+DOCKER_COMPOSE_DIR=./srcs/
 NGINX=./srcs/nginx
 MARIADB=./srcs/mariadb
 WORDPRESS=./srcs/wordpress
 
 all: $(NAME)
 
-$(NAME):
-	mkdir -p ~/data/mariadb
-	mkdir -p ~/data/wordpress
-	docker build -t nginx $(NGINX)
-	docker build -t mariadb $(MARIADB) 
-	docker build -t wordpress $(WORDPRESS)
-	make -C ./srcs
-
-stop:
-	make stop -C ./srcs
-
-down:
-	make down -C ./srcs
+$(NAME): create_volumes_folders up
 
 up:
-	make -C ./srcs
+	docker-compose up -df $(DOCKER_COMPOSE_DIR)
 
-reup:
-	make down -C ./srcs
-	make -C ./srcs
+create_volumes_folders:
+	mkdir -p ~/data/mariadb
+	mkdir -p ~/data/wordpress
 
-re: down all
+down:
+	docker-compose down -f srcs/
+
+clean:
+	docker container prune -f
+
+fclean:
+	docker system prune -f
+
+re: 
