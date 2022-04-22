@@ -17,16 +17,13 @@ create_data_folders:
 	mkdir -p ~/data/mariadb
 	mkdir -p ~/data/wordpress
 
-delete_data_folders:
-	rm -rf ~/data
-
 down:
 	$(COMPOSE) down -v
 
 clean:
 	docker container prune -f
 
-fclean: down delete_data_folders
+fclean: down
 	docker system prune -f
 
 re:	build up

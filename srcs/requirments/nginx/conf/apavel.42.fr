@@ -3,7 +3,7 @@ server {
     listen 80;
     listen [::]:80;
 
-	server_name apavel.42.fr apavel.42.fr; 
+	server_name apavel.42.fr www.apavel.42.fr; 
 
     return 301 https://$host$request_uri;
 }

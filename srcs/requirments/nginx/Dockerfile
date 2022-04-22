@@ -7,7 +7,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout\
     /etc/ssl/private/inception.key -out /etc/ssl/certs/inception.crt\
     -subj "/C=ES/ST=Madrid/L=Madrid/O=42/OU=INCEPTION"
 
-RUN rm -rf /etc/nginx/sites-enabled/default*
+RUN rm -rf /etc/nginx/sites-enabled/default
 
 COPY ./conf/apavel.42.fr /etc/nginx/sites-available/apavel.42.fr
 RUN ln -s /etc/nginx/sites-available/apavel.42.fr /etc/nginx/sites-enabled/
