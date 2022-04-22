@@ -18,7 +18,7 @@ RUN apt-get update && \
 			php-common
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
-COPY ./conf/setup_wp.sh /setup_wp.sh
+COPY ./tools/setup_wp.sh /setup_wp.sh
 
 RUN mkdir -p /run/php
 RUN chown www-data:www-data /run/php/
