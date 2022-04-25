@@ -4,7 +4,7 @@ services:
 
     nginx:
         container_name: nginx
-        build: ./requirments/nginx/
+        build: ./requirements/nginx/
         image: nginx
         restart: always
         volumes:
@@ -19,7 +19,7 @@ services:
     wordpress:
         container_name: wordpress
         build: 
-            context: ./requirments/wordpress/
+            context: ./requirements/wordpress/
             dockerfile: Dockerfile
             args:
                 MYSQL_ADMIN_USERNAME: ${MYSQL_ADMIN_USERNAME}
@@ -48,7 +48,7 @@ services:
     mariadb:
         container_name: mariadb
         build: 
-            context: ./requirments/mariadb/
+            context: ./requirements/mariadb/
             dockerfile: Dockerfile
             args:
                 MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
