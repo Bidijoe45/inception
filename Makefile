@@ -8,7 +8,7 @@ all: $(NAME)
 $(NAME): create_data_folders build up
 
 build:
-	$(COMPOSE) build --parallel
+	$(COMPOSE) build
 
 up:
 	$(COMPOSE) up -d
